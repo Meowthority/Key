@@ -2,37 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Daily Key Generator - Meowthority</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEMOD - Daily Key</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #1a1a1a; color: white; }
-        .box { background-color: #333; padding: 20px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
-        .key { font-size: 28px; font-weight: bold; color: #00ffcc; padding: 15px; background: #222; border: 2px dashed #00ffcc; border-radius: 5px; margin: 20px 0; letter-spacing: 2px;}
-        .note { font-size: 14px; color: #aaa; }
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #121212; color: white; padding: 50px; }
+        .box { background: #1e1e1e; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 0 15px rgba(0, 255, 128, 0.5); }
+        .key { font-size: 24px; font-weight: bold; color: #00ff80; background: #2a2a2a; padding: 10px 20px; border-radius: 5px; margin-top: 15px; display: inline-block; }
+        .error { color: #ff4c4c; font-size: 18px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2>UEMOD Daily Key</h2>
-        <p>Copy the password below and paste it into GameGuardian:</p>
-        
-        <div class="key" id="dailyKeyDisplay">Loading Key...</div>
-        
-        <p class="note">This password automatically changes every 24 hours.</p>
-        <p class="note">Support Meowthority on YouTube!</p>
+
+    <div class="box" id="contentBox">
+        <h2>Verifying your connection...</h2>
+        <p>Please wait a moment.</p>
     </div>
 
     <script>
-        const d = new Date();
-        const day = d.getDate();
-        const month = d.getMonth() + 1; 
-        const year = d.getFullYear();
+        setTimeout(() => {
+            // ANTI-BOOKMARK SYSTEM (Mengecek dari mana user datang)
+            let referrer = document.referrer.toLowerCase();
+            
+            // Masukkan nama web monetisasi kamu di sini (misal: sub4unlock atau safelinku)
+            let isVerified = referrer.includes("sub4unlock") || referrer.includes("safelinku") || referrer.includes("youtube");
 
-        // MATH FORMULA MUST MATCH THE LUA SCRIPT EXACTLY
-        const secretSalt = 8877;
-        const calc = (day * year) + (month * secretSalt);
-        const dailyKey = "UEMOD-" + day + month + "-" + calc;
+            let box = document.getElementById("contentBox");
 
-        document.getElementById("dailyKeyDisplay").innerText = dailyKey.toUpperCase();
+            // JIKA USER BUKA LEWAT BOOKMARK (Referrer kosong/tidak valid)
+            if (!isVerified && referrer !== "") {
+                box.innerHTML = `
+                    <h2 class="error">❌ ACCESS DENIED!</h2>
+                    <p>You cannot use Bookmarks to bypass the ad!</p>
+                    <p>Please open the GameGuardian script and click <b>"GET FREE DAILY KEY"</b> to get today's password.</p>
+                `;
+            } 
+            // JIKA USER DATANG DARI LINK YANG BENAR
+            else {
+                // RUMUS PASSWORD OTOMATIS (Sama dengan di Script Lua)
+                let today = new Date();
+                let day = today.getDate();
+                let month = today.getMonth() + 1; // JavaScript bulan dimulai dari 0
+                let year = today.getFullYear();
+                
+                let secretSalt = 8877; 
+                let calc = (day * year) + (month * secretSalt);
+                let dailyKey = "UEMOD-" + day + month + "-" + calc;
+
+                box.innerHTML = `
+                    <h2>✅ Verification Success!</h2>
+                    <p>Here is your Daily Key for today:</p>
+                    <div class="key">${dailyKey}</div>
+                    <p style="margin-top: 20px; font-size: 14px; color: #aaa;">Copy this key and paste it into the mod menu.</br>Key changes automatically every 24 hours.</p>
+                `;
+            }
+        }, 1500); // Jeda loading palsu 1.5 detik biar terlihat profesional
     </script>
+
 </body>
 </html>
