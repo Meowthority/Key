@@ -20,28 +20,26 @@
 
     <script>
         setTimeout(() => {
-            // ANTI-BOOKMARK SYSTEM (Mengecek dari mana user datang)
             let referrer = document.referrer.toLowerCase();
             
-            // Masukkan nama web monetisasi kamu di sini (misal: sub4unlock atau safelinku)
+            // Web yang diizinkan
             let isVerified = referrer.includes("sub4unlock") || referrer.includes("safelinku") || referrer.includes("youtube");
 
             let box = document.getElementById("contentBox");
 
-            // JIKA USER BUKA LEWAT BOOKMARK (Referrer kosong/tidak valid)
-            if (!isVerified && referrer !== "") {
+            // PERBAIKAN: Jika TIDAK terverifikasi (termasuk jika referrer kosong/bookmark), langsung blokir!
+            if (!isVerified) {
                 box.innerHTML = `
                     <h2 class="error">❌ ACCESS DENIED!</h2>
-                    <p>You cannot use Bookmarks to bypass the ad!</p>
+                    <p>You cannot use Bookmarks or direct links to bypass the ad!</p>
                     <p>Please open the GameGuardian script and click <b>"GET FREE DAILY KEY"</b> to get today's password.</p>
                 `;
             } 
             // JIKA USER DATANG DARI LINK YANG BENAR
             else {
-                // RUMUS PASSWORD OTOMATIS (Sama dengan di Script Lua)
                 let today = new Date();
                 let day = today.getDate();
-                let month = today.getMonth() + 1; // JavaScript bulan dimulai dari 0
+                let month = today.getMonth() + 1; 
                 let year = today.getFullYear();
                 
                 let secretSalt = 8877; 
@@ -55,7 +53,7 @@
                     <p style="margin-top: 20px; font-size: 14px; color: #aaa;">Copy this key and paste it into the mod menu.</br>Key changes automatically every 24 hours.</p>
                 `;
             }
-        }, 1500); // Jeda loading palsu 1.5 detik biar terlihat profesional
+        }, 1500); 
     </script>
 
 </body>
