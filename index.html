@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UEMOD - Secure Authentication</title>
+    <title>UEMOD - Generate Key</title>
     <style>
-        /* CSS SAMA SEPERTI SEBELUMNYA */
         :root {
             --bg-main: #0a0000; --box-bg: #150505; --border-color: #3d0c0c;
             --text-main: #f0f0f0; --text-muted: #888888; --accent-red: #d32f2f;
@@ -13,97 +12,118 @@
         body { 
             font-family: 'Segoe UI', sans-serif; background-color: var(--bg-main); 
             color: var(--text-main); display: flex; justify-content: center; 
-            align-items: center; height: 100vh; margin: 0; 
-            user-select: none; /* Mencegah block text sembarangan */
+            align-items: center; height: 100vh; margin: 0; user-select: none;
         }
         .box { 
-            background: var(--box-bg); padding: 40px 35px; border-radius: 12px; 
+            background: var(--box-bg); padding: 35px 30px; border-radius: 12px; 
             border: 1px solid var(--border-color); text-align: center; 
-            max-width: 420px; width: 90%; 
+            max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
-        h2 { margin-top: 0; font-weight: 600; font-size: 22px; }
-        .error-title { color: var(--accent-red); margin-bottom: 10px; }
-        .success-title { color: var(--text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
-        .desc { color: var(--text-muted); font-size: 14.5px; line-height: 1.6; margin-bottom: 20px; }
+        h2 { margin-top: 0; font-size: 22px; margin-bottom: 10px;}
+        .desc { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+        
+        input[type="text"] {
+            width: 90%; padding: 12px; border-radius: 6px; 
+            border: 1px solid var(--accent-red); background: #000; 
+            color: #fff; font-size: 16px; text-align: center; margin-bottom: 15px;
+            font-family: monospace; outline: none;
+        }
+        
+        button {
+            background-color: var(--accent-red); color: white; border: none;
+            padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 6px;
+            cursor: pointer; width: 100%; transition: 0.2s;
+        }
+        button:hover { background-color: #b71c1c; }
+
         .key-container { 
             background: #000; border: 1px dashed var(--accent-red); padding: 15px; 
-            border-radius: 6px; margin: 25px 0; font-family: monospace; 
-            font-size: 24px; font-weight: bold; color: #fff; letter-spacing: 2px; 
-            user-select: all; /* Hanya key yang bisa di copy */
+            border-radius: 6px; margin: 20px 0; font-family: monospace; 
+            font-size: 22px; font-weight: bold; color: #fff; user-select: all; 
         }
-        .spinner {
-            width: 40px; height: 40px; border: 3px solid rgba(211, 47, 47, 0.2);
-            border-radius: 50%; border-top-color: var(--accent-red);
-            animation: spin 1s ease-in-out infinite; margin: 0 auto 20px auto;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- Blokir Klik Kanan -->
+<body oncontextmenu="return false;">
 
     <div class="box" id="contentBox">
-        <div class="spinner"></div>
-        <h2 class="verifying">Authenticating...</h2>
-        <p class="desc">Please wait while we verify your connection securely.</p>
+        <h2 style="color: var(--accent-red);">Authenticating...</h2>
+        <p class="desc">Please wait.</p>
     </div>
 
     <script>
-        // 1. BLOKIR TOMBOL F12, CTRL+U, CTRL+SHIFT+I (Anti Inspect Element)
+        // Anti Inspect Element
         document.onkeydown = function(e) {
-            if(e.keyCode == 123) return false; // F12
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; // Ctrl+Shift+I
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; // Ctrl+Shift+J
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
+            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) return false;
         };
 
-        // 2. LOGIK AUTHENTICATION
-        setTimeout(function() {
-            // Ambil parameter dari URL
+        // GANTI PASSWORD INI JIKA MAU
+        var secretPassword = "X9vR2m_secure2024"; 
+
+        window.onload = function() {
             var urlParams = new URLSearchParams(window.location.search);
             var token = urlParams.get('auth_ticket'); 
             var ref = document.referrer.toLowerCase();
-
-            // INI ADALAH PASSWORD RAHASIA KAMU (Jangan gunakan kata mudah)
-            var secretPassword = "X9vR2m_secure2024"; 
-
             var contentBox = document.getElementById('contentBox');
 
-            // Cek apakah password cocok, atau referrer masih nyangkut (opsional)
             var isValid = (token === secretPassword) || ref.includes('safelinku') || ref.includes('sub4unlock');
 
             if (!isValid) {
-                // GAGAL
                 contentBox.innerHTML = `
-                    <h2 class="error-title">&#10060; Access Denied</h2>
-                    <p class="desc">Direct links or bookmarks are not allowed.</p>
-                    <p class="desc">Please open the script and follow the correct link to <b>"GET FREE DAILY KEY"</b>.</p>
+                    <h2 style="color: var(--accent-red);">&#10060; Access Denied</h2>
+                    <p class="desc">Direct links or bookmarks are blocked.</p>
                 `;
             } else {
-                // BERHASIL! Segera hapus token dari URL Address Bar
+                // Berhasil Lewat Safelinku -> Hapus URL & Tampilkan Form HWID
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.pathname);
                 }
-
-                // Generate Key UEMOD
-                var dateObj = new Date();
-                var day = dateObj.getDate();
-                var month = dateObj.getMonth() + 1;
-                var year = dateObj.getFullYear();
-                var magicNumber = 8877; 
-                
-                var keyMath = (day * year) + (month * magicNumber);
-                var generatedKey = 'UEMOD-' + day + month + '-' + keyMath;
-
-                contentBox.innerHTML = `
-                    <h2 class="success-title">Authentication Success</h2>
-                    <p class="desc" style="margin-top:15px;">Your secure Daily Key:</p>
-                    <div class="key-container">` + generatedKey + `</div>
-                    <p class="desc" style="font-size: 13px; margin-bottom:0;">
-                        Copy this key into the mod menu.<br>Session expires in 24 hours.
-                    </p>
-                `;
+                showHwidForm();
             }
-        }, 1200); // Delay sedikit agar efek loading terlihat
+        };
+
+        function showHwidForm() {
+            var contentBox = document.getElementById('contentBox');
+            contentBox.innerHTML = `
+                <h2>Generate Device Key</h2>
+                <p class="desc">Paste your <b>Device ID (HWID)</b> from the GameGuardian script below.</p>
+                <input type="text" id="hwidInput" placeholder="UE-XXXXX-XXX" autocomplete="off">
+                <button onclick="generateKey()">GENERATE KEY</button>
+            `;
+        }
+
+        function generateKey() {
+            var hwid = document.getElementById('hwidInput').value.trim().toUpperCase();
+            if (hwid === "") {
+                alert("Please paste your HWID first!");
+                return;
+            }
+
+            // Hitung nilai HWID (sama persis dengan script Lua)
+            var hwidNum = 0;
+            for (var i = 0; i < hwid.length; i++) {
+                hwidNum += hwid.charCodeAt(i);
+            }
+
+            var dateObj = new Date();
+            var day = dateObj.getDate();
+            var month = dateObj.getMonth() + 1;
+            var year = dateObj.getFullYear();
+            var magicNumber = 8877; 
+            
+            // RUMUS RAHASIA: (Hari * Tahun) + (Bulan * 8877) + (NilaiHWID * 3)
+            var keyMath = (day * year) + (month * magicNumber) + (hwidNum * 3);
+            var generatedKey = 'UEMOD-' + day + month + '-' + keyMath;
+
+            var contentBox = document.getElementById('contentBox');
+            contentBox.innerHTML = `
+                <h2 style="color: #4CAF50;">&#10004; Success</h2>
+                <p class="desc">Here is your private key. Do not share it, it will only work on your device.</p>
+                <div class="key-container">` + generatedKey + `</div>
+                <p class="desc" style="font-size: 12px; margin-bottom:0;">
+                    Copy this key and paste it into the Mod Menu.
+                </p>
+            `;
+        }
     </script>
 </body>
 </html>
