@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Key Generator - Meowthority</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #1a1a1a; color: white; }
+        .box { background-color: #333; padding: 20px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .key { font-size: 28px; font-weight: bold; color: #00ffcc; padding: 15px; background: #222; border: 2px dashed #00ffcc; border-radius: 5px; margin: 20px 0; letter-spacing: 2px;}
+        .note { font-size: 14px; color: #aaa; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>UEMOD Daily Key</h2>
+        <p>Copy the password below and paste it into GameGuardian:</p>
+        
+        <div class="key" id="dailyKeyDisplay">Loading Key...</div>
+        
+        <p class="note">This password automatically changes every 24 hours.</p>
+        <p class="note">Support Meowthority on YouTube!</p>
+    </div>
+
+    <script>
+        const d = new Date();
+        const day = d.getDate();
+        const month = d.getMonth() + 1; 
+        const year = d.getFullYear();
+
+        // MATH FORMULA MUST MATCH THE LUA SCRIPT EXACTLY
+        const secretSalt = 8877;
+        const calc = (day * year) + (month * secretSalt);
+        const dailyKey = "UEMOD-" + day + month + "-" + calc;
+
+        document.getElementById("dailyKeyDisplay").innerText = dailyKey.toUpperCase();
+    </script>
+</body>
+</html>
