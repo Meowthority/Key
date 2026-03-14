@@ -3,58 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UEMOD - Daily Key</title>
+    <title>UEMOD - Secure Authentication</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #121212; color: white; padding: 50px; }
-        .box { background: #1e1e1e; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 0 15px rgba(0, 255, 128, 0.5); }
-        .key { font-size: 24px; font-weight: bold; color: #00ff80; background: #2a2a2a; padding: 10px 20px; border-radius: 5px; margin-top: 15px; display: inline-block; }
-        .error { color: #ff4c4c; font-size: 18px; font-weight: bold; }
+        :root {
+            --bg-main: #0a0000;
+            --box-bg: #150505;
+            --border-color: #3d0c0c;
+            --text-main: #f0f0f0;
+            --text-muted: #888888;
+            --accent-red: #d32f2f;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+
+        .box { 
+            background: var(--box-bg); 
+            padding: 40px 35px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.03); 
+            text-align: center; 
+            max-width: 420px; 
+            width: 90%; 
+        }
+
+        h2 { 
+            margin-top: 0; 
+            font-weight: 600; 
+            font-size: 22px; 
+            letter-spacing: 0.5px; 
+        }
+
+        .verifying { color: var(--text-main); }
+        .error-title { color: var(--accent-red); margin-bottom: 10px; }
+        .success-title { color: var(--text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+        
+        .desc { 
+            color: var(--text-muted); 
+            font-size: 14.5px; 
+            line-height: 1.6; 
+            margin-bottom: 20px; 
+        }
+
+        .key-container { 
+            background: #000000; 
+            border: 1px dashed var(--accent-red); 
+            padding: 15px; 
+            border-radius: 6px; 
+            margin: 25px 0; 
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #ffffff; 
+            letter-spacing: 2px; 
+            user-select: all; /* Memudahkan user copy text */
+        }
+
+        /* Loading Animation */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(211, 47, 47, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--accent-red);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 20px auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 
     <div class="box" id="contentBox">
-        <h2>Verifying your connection...</h2>
-        <p>Please wait a moment.</p>
+        <div class="spinner"></div>
+        <h2 class="verifying">Authenticating...</h2>
+        <p class="desc">Please wait while we verify your connection securely.</p>
     </div>
 
     <script>
-        setTimeout(() => {
-            let referrer = document.referrer.toLowerCase();
-            
-            // Web yang diizinkan
-            let isVerified = referrer.includes("sub4unlock") || referrer.includes("safelinku") || referrer.includes("youtube");
-
-            let box = document.getElementById("contentBox");
-
-            // PERBAIKAN: Jika TIDAK terverifikasi (termasuk jika referrer kosong/bookmark), langsung blokir!
-            if (!isVerified) {
-                box.innerHTML = `
-                    <h2 class="error">❌ ACCESS DENIED!</h2>
-                    <p>You cannot use Bookmarks or direct links to bypass the ad!</p>
-                    <p>Please open the GameGuardian script and click <b>"GET FREE DAILY KEY"</b> to get today's password.</p>
-                `;
-            } 
-            // JIKA USER DATANG DARI LINK YANG BENAR
-            else {
-                let today = new Date();
-                let day = today.getDate();
-                let month = today.getMonth() + 1; 
-                let year = today.getFullYear();
-                
-                let secretSalt = 8877; 
-                let calc = (day * year) + (month * secretSalt);
-                let dailyKey = "UEMOD-" + day + month + "-" + calc;
-
-                box.innerHTML = `
-                    <h2>✅ Verification Success!</h2>
-                    <p>Here is your Daily Key for today:</p>
-                    <div class="key">${dailyKey}</div>
-                    <p style="margin-top: 20px; font-size: 14px; color: #aaa;">Copy this key and paste it into the mod menu.</br>Key changes automatically every 24 hours.</p>
-                `;
-            }
-        }, 1500); 
+        // Obfuscated JavaScript Code
+        (function(_0x32c1x1){var _0x32c1x2=['\x74\x6F\x4C\x6F\x77\x65\x72\x43\x61\x73\x65','\x72\x65\x66\x65\x72\x72\x65\x72','\x69\x6E\x63\x6C\x75\x64\x65\x73','\x73\x75\x62\x34\x75\x6E\x6C\x6F\x63\x6B','\x73\x61\x66\x65\x6C\x69\x6E\x6B\x75','\x79\x6F\x75\x74\x75\x62\x65','\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64','\x63\x6F\x6E\x74\x65\x6E\x74\x42\x6F\x78','\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C','\x3C\x68\x32\x20\x63\x6C\x61\x73\x73\x3D\x22\x65\x72\x72\x6F\x72\x2D\x74\x69\x74\x6C\x65\x22\x3E\x26\x23\x31\x30\x30\x36\x30\x3B\x20\x41\x63\x63\x65\x73\x73\x20\x44\x65\x6E\x69\x65\x64\x3C\x2F\x68\x32\x3E\x3C\x70\x20\x63\x6C\x61\x73\x73\x3D\x22\x64\x65\x73\x63\x22\x3E\x44\x69\x72\x65\x63\x74\x20\x6C\x69\x6E\x6B\x73\x20\x6F\x72\x20\x62\x6F\x6F\x6B\x6D\x61\x72\x6B\x73\x20\x61\x72\x65\x20\x6E\x6F\x74\x20\x61\x6C\x6C\x6F\x77\x65\x64\x2E\x3C\x2F\x70\x3E\x3C\x70\x20\x63\x6C\x61\x73\x73\x3D\x22\x64\x65\x73\x63\x22\x3E\x50\x6C\x65\x61\x73\x65\x20\x6F\x70\x65\x6E\x20\x74\x68\x65\x20\x73\x63\x72\x69\x70\x74\x20\x61\x6E\x64\x20\x63\x6C\x69\x63\x6B\x20\x3C\x62\x3E\x22\x47\x45\x54\x20\x46\x52\x45\x45\x20\x44\x41\x49\x4C\x59\x20\x4B\x45\x59\x22\x3C\x2F\x62\x3E\x2E\x3C\x2F\x70\x3E','\x67\x65\x74\x44\x61\x74\x65','\x67\x65\x74\x4D\x6F\x6E\x74\x68','\x67\x65\x74\x46\x75\x6C\x6C\x59\x65\x61\x72','\x55\x45\x4D\x4F\x44\x2D','\x3C\x68\x32\x20\x63\x6C\x61\x73\x73\x3D\x22\x73\x75\x63\x63\x65\x73\x73\x2D\x74\x69\x74\x6C\x65\x22\x3E\x41\x75\x74\x68\x65\x6E\x74\x69\x63\x61\x74\x69\x6F\x6E\x20\x53\x75\x63\x63\x65\x73\x73\x3C\x2F\x68\x32\x3E\x3C\x70\x20\x63\x6C\x61\x73\x73\x3D\x22\x64\x65\x73\x63\x22\x20\x73\x74\x79\x6C\x65\x3D\x22\x6D\x61\x72\x67\x69\x6E\x2D\x74\x6F\x70\x3A\x31\x35\x70\x78\x3B\x22\x3E\x59\x6F\x75\x72\x20\x73\x65\x63\x75\x72\x65\x20\x44\x61\x69\x6C\x79\x20\x4B\x65\x79\x3A\x3C\x2F\x70\x3E\x3C\x64\x69\x76\x20\x63\x6C\x61\x73\x73\x3D\x22\x6B\x65\x79\x2D\x63\x6F\x6E\x74\x61\x69\x6E\x65\x72\x22\x3E','\x3C\x2F\x64\x69\x76\x3E\x3C\x70\x20\x63\x6C\x61\x73\x73\x3D\x22\x64\x65\x73\x63\x22\x20\x73\x74\x79\x6C\x65\x3D\x22\x66\x6F\x6E\x74\x2D\x73\x69\x7A\x65\x3A\x20\x31\x33\x70\x78\x3B\x20\x6D\x61\x72\x67\x69\x6E\x2D\x62\x6F\x74\x74\x6F\x6D\x3A\x30\x3B\x22\x3E\x43\x6F\x70\x79\x20\x74\x68\x69\x73\x20\x6B\x65\x79\x20\x69\x6E\x74\x6F\x20\x74\x68\x65\x20\x6D\x6F\x64\x20\x6D\x65\x6E\x75\x2E\x3C\x62\x72\x3E\x53\x65\x73\x73\x69\x6F\x6E\x20\x65\x78\x70\x69\x72\x65\x73\x20\x69\x6E\x20\x32\x34\x20\x68\x6F\x75\x72\x73\x2E\x3C\x2F\x70\x3E'];setTimeout(function(){var _0x32c1x3=document[_0x32c1x2[1]][_0x32c1x2[0]]();var _0x32c1x4=_0x32c1x3[_0x32c1x2[2]](_0x32c1x2[3])||_0x32c1x3[_0x32c1x2[2]](_0x32c1x2[4])||_0x32c1x3[_0x32c1x2[2]](_0x32c1x2[5]);var _0x32c1x5=document[_0x32c1x2[6]](_0x32c1x2[7]);if(!_0x32c1x4){_0x32c1x5[_0x32c1x2[8]]=_0x32c1x2[9]}else{var _0x32c1x6= new Date();var _0x32c1x7=_0x32c1x6[_0x32c1x2[10]]();var _0x32c1x8=_0x32c1x6[_0x32c1x2[11]]()+1;var _0x32c1x9=_0x32c1x6[_0x32c1x2[12]]();var _0x32c1xa=0x22AD;var _0x32c1xb=(_0x32c1x7*_0x32c1x9)+(_0x32c1x8*_0x32c1xa);var _0x32c1xc=_0x32c1x2[13]+_0x32c1x7+_0x32c1x8+'-'+_0x32c1xb;_0x32c1x5[_0x32c1x2[8]]=_0x32c1x2[14]+_0x32c1xc+_0x32c1x2[15]}},1500)}());
     </script>
-
 </body>
 </html>
